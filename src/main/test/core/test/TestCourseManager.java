@@ -72,7 +72,7 @@ public class TestCourseManager {
 	@Test
 	public void testCreate1Cap(){
 		this.courseManager.createClass("ECS161", 2017, "Instructor", 1);
-		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+		assertTrue(this.courseManager.classExists("ECS161", 2017));
 	}
 	@Test
 	public void testCreateBelow0Cap(){
@@ -82,7 +82,7 @@ public class TestCourseManager {
 	@Test
 	public void testCreate1000Cap(){
 		this.courseManager.createClass("ECS161", 2017, "Instructor", 1000);
-		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+		assertTrue(this.courseManager.classExists("ECS161", 2017));
 	}
 	@Test
 	public void testCreate1001Cap(){
