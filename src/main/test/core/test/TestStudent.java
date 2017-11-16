@@ -41,7 +41,7 @@ public class TestStudent{
 	@Test
 	public void yearDoesntMatter() {
 		this.stud.registerForClass(sname, cname, year+1);
-		assertTrue(this.stud.isRegisteredFor(sname, cname, year));
+		assertFalse(this.stud.isRegisteredFor(sname, cname, year));
 	}
 	@Test
 	public void classNonexistant() {
