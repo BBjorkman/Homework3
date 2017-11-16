@@ -30,6 +30,7 @@ public class TestCourseManager {
 		this.admin = Mockito.spy(new Admin());
 		this.courseManager = new CourseManager(this.admin);
 		setupMocking();
+		setupCapMock();
 	}
 
 	/*
@@ -40,6 +41,10 @@ public class TestCourseManager {
 	 */
 	public void setupMocking() {
 		Mockito.doNothing().when(this.admin).createClass(Mockito.anyString(), AdditionalMatchers.lt(2017), Mockito.anyString(), Mockito.anyInt());
+	}
+	public void setupCapMock() {
+		Mockito.doNothing().when(this.admin).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), AdditionalMatchers.gt(1000));
+		Mockito.doNothing().when(this.admin).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), AdditionalMatchers.leq(0));
 	}
 
 	@Test
@@ -57,6 +62,31 @@ public class TestCourseManager {
 	@Test
 	public void testCreateClassInFuture() {
 		this.courseManager.createClass("ECS161", 2018, "Instructor", 1);
+		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+	}
+	@Test
+	public void testCreate0Cap(){
+		this.courseManager.createClass("ECS161", 2017, "Instructor", 0);
+		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+	}
+	@Test
+	public void testCreate1Cap(){
+		this.courseManager.createClass("ECS161", 2017, "Instructor", 1);
+		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+	}
+	@Test
+	public void testCreateBelow0Cap(){
+		this.courseManager.createClass("ECS161", 2017, "Instructor", -1);
+		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+	}
+	@Test
+	public void testCreate1000Cap(){
+		this.courseManager.createClass("ECS161", 2017, "Instructor", 1000);
+		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
+	}
+	@Test
+	public void testCreate1001Cap(){
+		this.courseManager.createClass("ECS161", 2017, "Instructor", 1001);
 		Mockito.verify(this.admin, Mockito.never()).createClass(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString(), Mockito.anyInt());
 	}
 }
