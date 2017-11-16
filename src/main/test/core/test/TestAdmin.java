@@ -71,6 +71,7 @@ public class TestAdmin{
     public void testMakeClass12() {
 		this.admin.createClass("A",2020,"B",20);
 		this.admin.createClass("C",2020,"B",21);
-		assertFalse(this.admin.classExists("C", 2020)&&this.admin.classExists("A", 2020));
+		this.admin.createClass("D",2020,"B",22);
+		assertFalse(this.admin.classExists("D", 2020));
     }
 }
